@@ -9,11 +9,10 @@ st.set_page_config(page_title="Khmer Character Classifier 🇰🇭", page_icon="
 st.title("🧠 Khmer Character Classifier")
 st.write("Upload a **Khmer character** image to see what it predicts!")
 
-# Add some information about supported characters
 with st.expander("ℹ️ About this classifier", expanded=True):
     st.write("""
     This model can recognize the following Khmer consonants:
-    - ក, គ, ខ, ង, ត, ដ, ណ, ឆ, ជ, ឈ
+    - ច (CHA), ឆ (CHHA), ឈ (CHHO), ដ (DA), ខ (KHA), ឃ (KHO), គ (KO), ណ (NA), ង (NGO), ត (TA)
     """)
 
 uploaded_file = st.file_uploader("📤 Upload Image", type=["png", "jpg", "jpeg"])
@@ -30,6 +29,7 @@ if uploaded_file:
             model, le = load_model_and_encoder()
             x = preprocess_image(image)
             label_const, confidence, probs = predict(model, le, x)
+            print("label_const: ", label_const)
             
             # 🔡 Map English label constant to Khmer character
             khmer_char = LABEL_TO_KHMER.get(label_const, "❓ Unknown")
@@ -57,7 +57,6 @@ if uploaded_file:
 
         st.success("✅ Prediction Complete!")
         
-        # Create columns for better layout
         col1, col2 = st.columns(2)
         
         with col1:
@@ -67,7 +66,6 @@ if uploaded_file:
             st.markdown(f"**Confidence:** `{confidence * 100:.2f}%`")
             
         with col2:
-            # Visual confidence meter
             st.markdown("### 📊 Confidence Level")
             st.progress(float(confidence))
             if confidence > 0.8:
