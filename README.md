@@ -185,9 +185,9 @@ The model can classify **10 Khmer consonant characters**. Current label mappings
 
 | English Label | Khmer Character | English Label | Khmer Character |
 |--------------|-----------------|---------------|-----------------|
-| KO | ក | CHA | ឆ |
-| KHO | គ | CHHA | ឈ |
-| KHA | ខ | CHHO | ជ |
+| KO | គ | CHA | ច |
+| KHO | ឃ | CHHA | ឆ |
+| KHA | ខ | CHHO | ឈ |
 | NGO | ង | DA | ដ |
 | TA | ត | NA | ណ |
 
