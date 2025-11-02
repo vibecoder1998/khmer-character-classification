@@ -5,7 +5,7 @@ from src.inference import load_model_and_encoder, predict
 from utils.label_map import LABEL_TO_KHMER  # ✅ Khmer label mapping
 
 st.set_page_config(page_title="Khmer Character Classifier 🇰🇭", page_icon="🇰🇭")
-st.title("🧠 Khmer Character Classification (PyTorch)")
+st.title("🧠 Khmer Character Classification")
 st.write("Upload a **Khmer character** image to see what it predicts!")
 
 uploaded_file = st.file_uploader("📤 Upload Image", type=["png", "jpg", "jpeg"])
