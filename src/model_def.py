@@ -14,7 +14,7 @@ class NNClassifierModel(nn.Module):
             nn.BatchNorm1d(50),
             nn.ReLU(),
             nn.Dropout(p=0.1),
-            nn.Linear(50, 33)
+            nn.Linear(50, 10)
         )
 
     def forward(self, x):
