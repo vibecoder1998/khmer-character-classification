@@ -34,7 +34,7 @@ The application provides an easy-to-use web interface where users can upload ima
 - **Top-K Predictions**: See the top 3 most likely character matches
 - **Interactive Web Interface**: User-friendly Streamlit-based UI
 - **Image Preprocessing**: Automatic image normalization and resizing
-- **Multiple Character Support**: Trained on 33 Khmer character classes
+- **Multiple Character Support**: Trained on 10 Khmer character classes
 - **Production-Ready**: Pre-trained model included for immediate use
 
 ## 📁 Project Structure
@@ -71,7 +71,7 @@ The project uses a **feedforward neural network** with the following structure:
 - **Hidden Layer 1**: 200 neurons with ReLU activation
 - **Hidden Layer 2**: 100 neurons with BatchNorm1d and ReLU activation, 20% dropout
 - **Hidden Layer 3**: 50 neurons with BatchNorm1d and ReLU activation, 10% dropout
-- **Output Layer**: 33 neurons (one per character class)
+- **Output Layer**: 10 neurons (one per character class)
 
 ### Processing Pipeline
 
@@ -164,7 +164,7 @@ The project uses a **feedforward neural network** with the following structure:
 
 - **Model Type**: Feedforward Neural Network (Multi-layer Perceptron)
 - **Input Size**: 2304 features (48×48 grayscale image)
-- **Output Classes**: 33 Khmer characters
+- **Output Classes**: 10 Khmer characters
 - **Activation Functions**: ReLU for hidden layers, Softmax for output
 - **Regularization**: Batch Normalization and Dropout to prevent overfitting
 
@@ -181,7 +181,7 @@ The model is loaded from saved state dict (`khmer_char_model.pth`) and the label
 
 ## 🔤 Supported Characters
 
-The model can classify **33 Khmer consonant characters**. Current label mappings include:
+The model can classify **10 Khmer consonant characters**. Current label mappings include:
 
 | English Label | Khmer Character | English Label | Khmer Character |
 |--------------|-----------------|---------------|-----------------|
@@ -191,7 +191,7 @@ The model can classify **33 Khmer consonant characters**. Current label mappings
 | NGO | ង | DA | ដ |
 | TA | ត | NA | ណ |
 
-*Note: The full label mapping may include additional characters. The label encoder contains all 33 classes.*
+*Note: The label encoder contains all 10 classes.*
 
 ## 📝 File Descriptions
 
