@@ -1,4 +1,5 @@
 import streamlit as st
+import numpy as np
 from PIL import Image
 from src.preprocess import preprocess_image
 from src.inference import load_model_and_encoder, predict
@@ -31,19 +32,29 @@ if uploaded_file:
             label_const, confidence, probs = predict(model, le, x)
             
             # 🔡 Map English label constant to Khmer character
-            khmer_char = LABEL_TO_KHMER.get(label_const)
+            khmer_char = LABEL_TO_KHMER.get(label_const, "❓ Unknown")
             
-            # Get top predictions for additional insights
-            top_k = 3
-            top_indices = probs.argsort()[-top_k:][::-1]
-            top_labels = le.inverse_transform(top_indices)
-            top_confidences = probs[top_indices]
+            top_predictions = []
+            if probs is not None and len(probs) > 0:
+                try:
+                    # Ensure probs is a proper numpy array
+                    probs_array = np.array(probs).flatten()
+                    
+                    # Get top k predictions safely
+                    top_k = min(3, len(probs_array)) 
+                    if top_k > 0:
+                        # Use numpy argsort instead of direct argsort()
+                        top_indices = np.argsort(probs_array)[-top_k:][::-1]
+                        top_labels = le.inverse_transform(top_indices)
+                        top_confidences = probs_array[top_indices]
+                        top_predictions = list(zip(top_labels, top_confidences))
+                except Exception as top_e:
+                    st.warning(f"Note: Could not display top predictions: {str(top_e)}")
             
             # Handle low confidence predictions
             if confidence < 0.5:
                 st.warning("⚠️ Low confidence prediction. The image might be unclear or not a Khmer character.")
 
-        # Display prediction results
         st.success("✅ Prediction Complete!")
         
         # Create columns for better layout
@@ -71,12 +82,13 @@ if uploaded_file:
         st.markdown(f"# 🎯 Predicted Character: {khmer_char}")
         st.markdown(f"*({label_const})*")
         
-        # Show top 3 predictions for comparison
-        st.markdown("### 🔝 Top 3 Predictions")
-        for i, (label, conf) in enumerate(zip(top_labels, top_confidences)):
-            khmer_char_top = LABEL_TO_KHMER.get(label)
-            emoji = "🥇" if i == 0 else "🥈" if i == 1 else "🥉"
-            st.write(f"{emoji} **{khmer_char_top}** ({label}): `{conf * 100:.2f}%`")
+        # Show top 3 predictions for comparison (only if available)
+        if top_predictions:
+            st.markdown("### 🔝 Top Predictions")
+            for i, (label, conf) in enumerate(top_predictions):
+                khmer_char_top = LABEL_TO_KHMER.get(label, "❓ Unknown")
+                emoji = "🥇" if i == 0 else "🥈" if i == 1 else "🥉"
+                st.write(f"{emoji} **{khmer_char_top}** ({label}): `{conf * 100:.2f}%`")
         
     except Exception as e:
         st.error(f"❌ Error processing image: {str(e)}")
