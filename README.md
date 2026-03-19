@@ -289,10 +289,6 @@ This project is open for contributions! Areas for improvement:
 - Enhancing UI/UX
 - Supporting full word/sentence recognition
 
-## 📄 License
-
-*Add your license information here*
-
 ## 🙏 Acknowledgments
 
 - Khmer script Unicode standard
